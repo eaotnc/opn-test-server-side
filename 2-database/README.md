@@ -5,10 +5,15 @@
 I design to each table following by this.
 
 1.Customers: Stores information about customers, including their ID, name, age, gender, and location.
+
 2.Categories: Contains different categories of products.
+
 3.Products: Represents individual products with a link to their respective category.
+
 4.ProductVariations: Handles different variations of a product, such as color or size.
+
 5.Carts: Represents individual customer shopping carts.
+
 6.CartItems: Contains the items added to each cart, linking back to the customer and the specific product.
 
 ## ER diagram
