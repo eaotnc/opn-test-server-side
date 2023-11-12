@@ -6,3 +6,6 @@ this code writing in pure typescript so you must install nodejs and ts-node firs
 
 `cd ./3-coding`
 ` yarn start`
+or
+` yarn start:watch`
+for real time editing
