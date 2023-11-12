@@ -7,11 +7,13 @@ import {
 } from '@nestjs/common';
 import { ChangePassword, Profile } from 'src/auth/auth.interface';
 import { v4 as uuid } from 'uuid';
+import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 
 @Injectable()
 export class UsersService {
   users: Array<Profile>;
+
   constructor() {
     this.users = [];
   }
@@ -26,7 +28,8 @@ export class UsersService {
 
   async createUser(newUser: Profile) {
     const userId: string = uuid();
-    const newUserParam = { userId, ...newUser };
+    const hashedPassword = await bcrypt.hash(newUser.password, 10);
+    const newUserParam = { userId, ...newUser, password: hashedPassword };
     this.users.push(newUserParam);
     return newUserParam;
   }
@@ -38,7 +41,7 @@ export class UsersService {
         const userWithoutPassword = _.omit(user, 'password');
         return userWithoutPassword;
       } else {
-        throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
     } catch (error) {
       console.error(error);
@@ -65,9 +68,9 @@ export class UsersService {
     user: Profile,
     oldPassword: string,
   ): Promise<void> {
-    // const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
 
-    if (oldPassword !== user.password) {
+    if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid old password');
     }
   }
@@ -80,10 +83,10 @@ export class UsersService {
     }
     const user = this.users[userIndex];
     await this.validatePassword(user, oldPassword);
-    // const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-    user.password = newPassword;
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
 
-    return 'password has changed';
+    return 'Password has been changed';
   }
 
   async deleteUser(userId: string) {
@@ -92,7 +95,7 @@ export class UsersService {
       if (index !== -1) {
         this.users.splice(index, 1);
       }
-      return `delete userID: ${userId} success`;
+      return `Deleted user with ID: ${userId} successfully`;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
