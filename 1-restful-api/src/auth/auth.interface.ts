@@ -8,3 +8,9 @@ export interface Profile {
   address: string;
   subscribeToNewsletter: boolean;
 }
+
+export interface ChangePassword {
+  userId: string;
+  oldPassword: string;
+  newPassword: string;
+}

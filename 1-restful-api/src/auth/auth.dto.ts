@@ -22,3 +22,19 @@ export class RegisterDto {
   @IsNotEmpty()
   subscribeToNewsletter: boolean;
 }
+
+export class LoginDto {
+  @IsEmail()
+  email: string;
+  @IsNotEmpty()
+  password: string;
+}
+
+export class ChangePasswordDto {
+  @IsNotEmpty()
+  userId: string;
+  @IsNotEmpty()
+  newPassword: string;
+  @IsNotEmpty()
+  oldPassword: string;
+}

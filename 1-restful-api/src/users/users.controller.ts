@@ -1,6 +1,15 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UsersService } from './users.service';
+import { Profile } from 'src/auth/auth.interface';
 
 @Controller('users')
 export class UsersController {
@@ -10,6 +19,12 @@ export class UsersController {
   @Get('/')
   userLists() {
     return this.userService.userLists();
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('profile')
+  updateUserById(@Body() updatedUserData: Partial<Profile>) {
+    return this.userService.updateUserById(updatedUserData);
   }
 
   @UseGuards(AuthGuard)

@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { Profile } from './auth.interface';
 
@@ -11,12 +6,13 @@ import { Profile } from './auth.interface';
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async signIn(username, pass) {
-    const user = await this.usersService.findOne(username);
+  async signIn(email, pass) {
+    const user = await this.usersService.findByEmail(email);
     if (user?.password !== pass) {
-      throw new UnauthorizedException();
+      throw new HttpException('wrong email,password', HttpStatus.UNAUTHORIZED);
     }
     return {
+      message: 'login success',
       access_token: 'Bearer faketoken_user1',
     };
   }
