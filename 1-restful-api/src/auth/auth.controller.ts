@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Delete,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './auth.dto';
 
@@ -28,17 +16,5 @@ export class AuthController {
   @Post('register')
   register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('profile/:userId')
-  getProfile(@Param() params: any) {
-    return this.authService.getProfile(params.userId);
-  }
-
-  @UseGuards(AuthGuard)
-  @Delete(':userId')
-  deleteUser(@Param() params: any) {
-    return this.authService.deleteUser(params.userId);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Profile } from 'src/auth/auth.interface';
 import { v4 as uuid } from 'uuid';
 
@@ -13,6 +13,10 @@ export class UsersService {
     return this.users.find((user) => user.name === username);
   }
 
+  async userLists() {
+    return this.users;
+  }
+
   async createUser(newUser: Profile) {
     const userId: string = uuid();
     const newUserParam = { userId, ...newUser };
@@ -21,13 +25,27 @@ export class UsersService {
   }
 
   async getProfile(userId: string) {
-    return this.users.find((user) => user.userId === userId);
+    try {
+      const user = this.users.find((user) => user.userId === userId);
+      if (user) {
+        return user;
+      } else {
+        throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+      }
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  async deleteUserById(userId: string): Promise<void> {
-    const index = this.users.findIndex((user) => user.userId === userId);
-    if (index !== -1) {
-      this.users.splice(index, 1);
+  async deleteUser(userId: string) {
+    try {
+      const index = this.users.findIndex((user) => user.userId === userId);
+      if (index !== -1) {
+        this.users.splice(index, 1);
+      }
+      return `delete userID: ${userId} success`;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
