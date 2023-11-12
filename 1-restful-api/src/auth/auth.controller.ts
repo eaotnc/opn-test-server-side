@@ -2,8 +2,10 @@ import {
   Body,
   Controller,
   Get,
+  Delete,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -29,8 +31,14 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile() {
-    return this.authService.getProfile();
+  @Get('profile/:userId')
+  getProfile(@Param() params: any) {
+    return this.authService.getProfile(params.userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':userId')
+  deleteUser(@Param() params: any) {
+    return this.authService.deleteUser(params.userId);
   }
 }

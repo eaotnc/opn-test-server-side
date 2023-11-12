@@ -27,19 +27,31 @@ export class AuthService {
 
   async register(param: Profile) {
     try {
-      await this.usersService.createUser(param);
-      return {
-        ...param,
-      };
+      const response = await this.usersService.createUser(param);
+      return response;
     } catch (error) {
       console.error(error);
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async getProfile() {
+  async getProfile(userId: string) {
     try {
-      return this.usersService.getProfile();
+      const user = await this.usersService.getProfile(userId);
+      if (user) {
+        return user;
+      } else {
+        throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+      }
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async deleteUser(userId: string) {
+    try {
+      await this.usersService.deleteUserById(userId);
+      return `delete userID: ${userId} success`;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

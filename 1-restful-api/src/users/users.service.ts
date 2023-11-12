@@ -17,13 +17,17 @@ export class UsersService {
     const userId: string = uuid();
     const newUserParam = { userId, ...newUser };
     this.users.push(newUserParam);
-    console.log('🚀 ~ this.users:', this.users);
-
     return newUserParam;
   }
 
-  async getProfile() {
-    console.log('🚀 ~ this.users:', this.users);
-    return this.users[0];
+  async getProfile(userId: string) {
+    return this.users.find((user) => user.userId === userId);
+  }
+
+  async deleteUserById(userId: string): Promise<void> {
+    const index = this.users.findIndex((user) => user.userId === userId);
+    if (index !== -1) {
+      this.users.splice(index, 1);
+    }
   }
 }
