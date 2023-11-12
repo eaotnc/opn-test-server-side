@@ -2,6 +2,8 @@ import { Cart } from "./cart";
 
 const cart = Cart.create("customer1");
 
+// WARNING: I just remove ambiguous method .total. then separate it to .totalItem and .totalPrice
+
 /// Positive cases
 cart.add(1, 2);
 cart.add(2, 1);
@@ -36,6 +38,6 @@ console.log(
   cart.totalItems()
 );
 
-// Destroy the cart and check if it's empty
 cart.destroy();
+console.log("cart TotalItem?", cart.totalItems());
 console.log("Is the cart empty?", cart.isEmpty());
