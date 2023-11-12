@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "ts-node cart.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
