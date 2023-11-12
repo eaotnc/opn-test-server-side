@@ -1,30 +1,19 @@
 import { Injectable } from '@nestjs/common';
-
-interface user {
-  userId: number;
-  username: string;
-  password: string;
-}
+import { Profile } from 'src/auth/auth.interface';
 
 @Injectable()
 export class UsersService {
-  private users: Array<user>;
+  users: Array<Profile>;
   constructor() {
-    this.users = [
-      {
-        userId: 1,
-        username: 'john',
-        password: 'changeme',
-      },
-      {
-        userId: 2,
-        username: 'maria',
-        password: 'guess',
-      },
-    ];
+    this.users = [];
   }
 
   async findOne(username) {
-    return this.users.find((user) => user.username === username);
+    return this.users.find((user) => user.name === username);
+  }
+  async createUser(newUser: Profile) {
+    this.users.push(newUser);
+    console.log(this.users);
+    return newUser;
   }
 }

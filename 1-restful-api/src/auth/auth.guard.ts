@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
     } else if (token === 'faketoken_user1') {
       return true;
     }
+    //INFO: this code can use real jwt authen from code below
     // try {
     //   const payload = await this.jwtService.verifyAsync(token, {
     //     secret: jwtConstants.secret,
