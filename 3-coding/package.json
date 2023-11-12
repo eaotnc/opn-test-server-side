@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "start": "ts-node cart.ts"
+    "start": "tsc && node dist/index.js",
+    "start:watch": "tsc -w & nodemon -q -w dist dist/index.js"
   },
   "devDependencies": {
+    "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   }
 }
