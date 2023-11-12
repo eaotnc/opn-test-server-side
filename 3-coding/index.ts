@@ -9,14 +9,14 @@ console.log("Items in the cart:", cart.count());
 console.log("Total before discount:", cart.total());
 
 cart.addDiscount("discount1", { type: "fixed", amount: 500 });
-console.log("Total after discount:", cart.total());
+console.log("Total after discount1:", cart.total());
 
 cart.addDiscount("discount2", {
   type: "percentage",
   amount: 50,
   max: 10000,
 });
-console.log("Total after discount:", cart.total());
+console.log("Total after discount2:", cart.total());
 
 cart.removeDiscount("discount2");
 console.log("Total after trying to remove discount2:", cart.total());
