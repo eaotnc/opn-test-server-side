@@ -61,7 +61,7 @@ export class Cart {
     return this.items.length === 0;
   }
 
-  count(): CartItem[] {
+  count(): Omit<CartItem, "price">[] {
     return this.items.map((item) => ({
       product_id: item.product_id,
       quantity: item.quantity,
@@ -72,22 +72,7 @@ export class Cart {
     return this.items.length;
   }
 
-  totalItems(): number {
-    let total = this.items.reduce((acc, item) => acc + item.quantity, 0);
-
-    for (const discount of this.discounts) {
-      if (discount.type === "fixed") {
-        total -= Math.min(discount.amount, total);
-      } else if (discount.type === "percentage") {
-        total *=
-          (100 - Math.min(discount.amount, discount.max || Infinity)) / 100;
-      }
-    }
-
-    return total;
-  }
-
-  totalPrice(): number {
+  total(): number {
     let totalPrice = this.items.reduce(
       (total, item) => total + item.quantity * item.price,
       0
@@ -122,7 +107,11 @@ export class Cart {
 
   addFreebie(name: string, condition: Condition, reward: Reward): void {
     if (condition.type === "contains" && this.has(condition.product_id)) {
+      const { price } = Products.find(
+        (item) => item.product_id === condition.product_id
+      );
       this.items.push({
+        price,
         product_id: reward.product_id,
         quantity: reward.quantity,
       });

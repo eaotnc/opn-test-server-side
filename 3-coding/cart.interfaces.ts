@@ -17,7 +17,7 @@ export interface Reward {
 export interface CartItem {
   product_id: number;
   quantity: number;
-  price?: number;
+  price: number;
 }
 
 export interface CartDiscount {
