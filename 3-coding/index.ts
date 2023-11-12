@@ -6,10 +6,13 @@ const cart = Cart.create("customer1");
 cart.add(1, 2);
 cart.add(2, 1);
 console.log("Items in the cart:", cart.count());
-console.log("Total before discount:", cart.total());
+console.log("Total before discount:", cart.totalPrice());
 
-cart.addDiscount("discount1", { type: "fixed", amount: 1 });
-console.log("Total after discount:", cart.total());
+cart.addDiscount("discount1", { type: "fixed", amount: 500 });
+console.log("Total after discount:", cart.totalPrice());
+
+cart.addDiscount("discount2", { type: "percentage", amount: 50, max: 2000 });
+console.log("Total after discount:", cart.totalPrice());
 
 cart.addFreebie(
   "freebie1",
@@ -30,7 +33,7 @@ console.log("Items after removing non-existing item:", cart.count());
 cart.removeDiscount("discount2");
 console.log(
   "Total after trying to remove non-existing discount:",
-  cart.total()
+  cart.totalItems()
 );
 
 // Destroy the cart and check if it's empty

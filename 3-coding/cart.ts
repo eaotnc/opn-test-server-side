@@ -6,6 +6,7 @@ import {
   CartDiscount,
   CartFreebie,
 } from "./cart.interfaces";
+import { Products } from "./products";
 
 export class Cart {
   private customer_id: string;
@@ -29,7 +30,8 @@ export class Cart {
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      this.items.push({ product_id, quantity });
+      const { price } = Products.find((item) => item.product_id === product_id);
+      this.items.push({ product_id, quantity, price });
     }
   }
 
@@ -70,7 +72,7 @@ export class Cart {
     return this.items.length;
   }
 
-  total(): number {
+  totalItems(): number {
     let total = this.items.reduce((acc, item) => acc + item.quantity, 0);
 
     for (const discount of this.discounts) {
@@ -83,6 +85,24 @@ export class Cart {
     }
 
     return total;
+  }
+
+  totalPrice(): number {
+    let totalPrice = this.items.reduce(
+      (total, item) => total + item.quantity * item.price,
+      0
+    );
+
+    for (const discount of this.discounts) {
+      if (discount.type === "fixed") {
+        totalPrice -= Math.min(discount.amount, totalPrice);
+      } else if (discount.type === "percentage") {
+        totalPrice *=
+          (100 - Math.min(discount.amount, discount.max || Infinity)) / 100;
+      }
+    }
+
+    return totalPrice;
   }
 
   addDiscount(name: string, discount: Discount): void {
