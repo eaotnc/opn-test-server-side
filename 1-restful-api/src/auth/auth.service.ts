@@ -20,9 +20,7 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
-    // const payload = { sub: user.userId, username: user.username };
     return {
-      //   access_token: await this.jwtService.signAsync(payload),
       access_token: 'Bearer faketoken_user1',
     };
   }
@@ -35,6 +33,14 @@ export class AuthService {
       };
     } catch (error) {
       console.error(error);
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async getProfile() {
+    try {
+      return this.usersService.getProfile();
+    } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
