@@ -1,14 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { Profile } from './auth.interface';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
   async signIn(email, pass) {
     const user = await this.usersService.findByEmail(email);
-    if (user?.password !== pass) {
+    if (!user) {
+      throw new HttpException('user not found', HttpStatus.UNAUTHORIZED);
+    }
+    if (bcrypt.compareSync(user?.password, pass)) {
       throw new HttpException('wrong email,password', HttpStatus.UNAUTHORIZED);
     }
     return {
