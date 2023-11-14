@@ -58,7 +58,7 @@ describe('AuthService', () => {
       jest.spyOn(usersService, 'findByEmail').mockResolvedValue(null);
 
       await expect(authService.signIn(email, password)).rejects.toThrowError(
-        new HttpException('wrong email,password', HttpStatus.UNAUTHORIZED),
+        new HttpException('user not found', HttpStatus.UNAUTHORIZED),
       );
     });
   });
