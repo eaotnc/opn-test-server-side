@@ -82,8 +82,10 @@ export class Cart {
       if (discount.type === "fixed") {
         totalPrice -= Math.min(discount.amount, totalPrice);
       } else if (discount.type === "percentage") {
-        totalPrice *=
-          (100 - Math.min(discount.amount, discount.max || Infinity)) / 100;
+        totalPrice -= Math.min(
+          (totalPrice * discount.amount) / 100,
+          discount.max
+        );
       }
     }
 
