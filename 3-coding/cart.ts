@@ -109,16 +109,12 @@ export class Cart {
 
   addFreebie(name: string, condition: Condition, reward: Reward): void {
     if (condition.type === "contains" && this.has(condition.product_id)) {
-      const { price } = Products.find(
-        (item) => item.product_id === condition.product_id
-      );
       this.items.push({
-        price,
+        price: 0,
         product_id: reward.product_id,
         quantity: reward.quantity,
       });
     }
-
     this.freebies.push({ name, condition, reward });
   }
 }

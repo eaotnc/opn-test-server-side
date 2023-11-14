@@ -14,7 +14,7 @@ console.log("Total after discount1:", cart.total());
 cart.addDiscount("discount2", {
   type: "percentage",
   amount: 50,
-  max: 10000,
+  max: 100000,
 });
 console.log("Total after discount2:", cart.total());
 
