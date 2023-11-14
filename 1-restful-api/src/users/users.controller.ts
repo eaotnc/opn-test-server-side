@@ -22,20 +22,24 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @Put('profile')
-  updateUserById(@Body() updatedUserData: Partial<Profile>) {
-    return this.userService.updateUserById(updatedUserData);
+  @Put('profile/:userId')
+  updateUserById(
+    @Param('userId') userId: string,
+    @Body() updatedUserData: Partial<Profile>,
+  ) {
+    const updateUserParam = { userId, ...updatedUserData };
+    return this.userService.updateUserById(updateUserParam);
   }
 
   @UseGuards(AuthGuard)
   @Get('profile/:userId')
-  getProfile(@Param() params: any) {
-    return this.userService.getProfile(params.userId);
+  getProfile(@Param('userId') userId: string) {
+    return this.userService.getProfile(userId);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':userId')
-  deleteUser(@Param() params: any) {
-    return this.userService.deleteUser(params.userId);
+  deleteUser(@Param('userId') userId: string) {
+    return this.userService.deleteUser(userId);
   }
 }
