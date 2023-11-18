@@ -1,6 +1,6 @@
 # thanatcha-opn-test-server-side
 
-[https://github.com/eaotnc/opn-test-server-side]test link https://github.com/eaotnc/opn-test-server-side 
+ link https://github.com/eaotnc/opn-test-server-side 
 
 ## 1.restful-api
 
