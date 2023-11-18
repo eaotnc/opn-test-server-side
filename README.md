@@ -1,7 +1,6 @@
 # thanatcha-opn-test-server-side
 
- link https://github.com/eaotnc/opn-test-server-side 
-
+testLink: https://github.com/opn-ooo/opn-th-server-side-challenge
 ## 1.restful-api
 
 this code write in the nestjs use yarn to install and run you can run by
